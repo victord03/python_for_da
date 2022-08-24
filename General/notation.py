@@ -1,3 +1,5 @@
+
+# FONTS
 """
 Italic
 Indicates new terms, URLs, email addresses, filenames, and file extensions.
@@ -13,7 +15,10 @@ Shows commands or other text that should be typed literally by the user.
 Constant width italic
 Shows text that should be replaced with user-supplied values or by values deter‐
 mined by context.
+"""
 
+# ICONS
+"""
 Squirrel
 This element signifies a tip or suggestion.
 
@@ -26,6 +31,7 @@ This element indicates a warning or caution.
 Book repo: http://github.com/wesm/pydata-book (The book is 2nd edition. Choose corresponding branch.)
 """
 
+# OPERATIONS ON DATA
 """
 Interacting with the outside world
 Reading and writing with a variety of file formats and data stores
@@ -45,3 +51,4 @@ computational tools
 Presentation
 Creating interactive or static graphical visualizations or textual summaries
 """
+
