@@ -1,8 +1,6 @@
-import random
 from abc import ABC, abstractmethod
-
-from random import randint,triangular
-
+from random import randint, triangular
+from bisect import bisect, insort
 
 class Employee(ABC):
     name: str
@@ -65,37 +63,61 @@ def triangular_distribution(lower_bound: float, upper_bound: float) -> float:
     return round(triangular(lower_bound, upper_bound), 2)
 
 
+# DATA ANALYSIS
+def count_occurrence(my_list: list) -> dict:
+    return {x: my_list.count(x) for x in my_list}
+
+
+def count_number_of_duplicate_values(my_list: list) -> int:
+    return len(my_list) - len(set(my_list))
+
+
+def find_duplicate_values(my_list: list) -> tuple:
+    return tuple(set([x for x in my_list if my_list.count(x) > 1]))
+
+
+def find_unique_values(my_list: list) -> tuple:
+    return tuple(x for x in my_list if my_list.count(x) == 1)
+
+
 def main():
 
     # ABSTRACT CLASSES AND METHODS
     employee_1 = Dev("Victor", "Kaklamanis")
-    print(employee_1.display_name())
+    # print(employee_1.display_name())
 
     # REFACTOR EXERCISE (COMPLETED)
-    # this_rectangle = Rectangle(length=3, width=7)
+    this_rectangle = Rectangle(length=3, width=7)
     # print(this_rectangle.area())
     # print(this_rectangle.perimeter())
 
-    # DUPLICATES EXERCISE (COMPLETED)
-    # my_list = [randint(1, 25) for _ in range(4000)]
-    # my_list.extend([2, 2])
+    # DUPLICATES / DATA ANALYSIS EXERCISE (COMPLETED)
+    my_list = [randint(1, 25) for _ in range(120)]
+    my_list.extend([2, 2])
 
-    # print(my_list)
-    # print()
+    duplicates = find_duplicate_values(my_list)
+    frequency_dict = count_occurrence(my_list)
 
-    # duplicates = list(set(x for x in my_list if my_list.count(x) > 1))
-
-    # print(duplicates)
-    # print()
-
-    # frequency_dict = {x: my_list.count(x) for x in sorted(my_list)}
-    # print(frequency_dict)
-
-    # MAP
-    # upper_bounds = [randint(1, 20) for _ in range(20)]
-    # lower_bounds = [randint(19, 40) for _ in range(20)]
-    # results = list(map(triangular_distribution, upper_bounds, lower_bounds))
+    # MAP() FUNCTION
+    upper_bounds = [randint(1, 20) for _ in range(20)]
+    lower_bounds = [randint(19, 40) for _ in range(20)]
+    results = list(map(triangular_distribution, upper_bounds, lower_bounds))
     # print(results)
+
+    # BISECT
+    other_list = [1, 3, 1, 6, 4, 6, 2, 2]
+    sorted_list = sorted(other_list)
+    # print(sorted_list)
+    bisect(sorted_list, 5)
+    # bisect implements binary search and returns the index at which
+    # the element has to be placed for the iterable to remain in order
+    sorted_list_copy = sorted_list.copy()
+    insort(sorted_list_copy, 5)
+    # insort actually inserts the element at the corresponding index
+
+    for element in set(sorted_list_copy):
+        if element not in set(sorted_list):
+            print(element)
 
 
 if __name__ == "__main__":
