@@ -91,6 +91,30 @@ def main():
     strings = ['a', 'as', 'bat', 'car', 'dove', 'python']
     set(map(len, strings))  # returns a set (only unique values) with the length of strings as elements
 
+    # LAMBDAS
+    def apply_to_list(some_list, f):
+        return [f(x) for x in some_list]
+
+    ints = [4, 0, 1, 5, 6]
+    print(apply_to_list(ints, lambda x: x * 2))
+
+    # lambdas sorting
+    strings = ['foo', 'card', 'bar', 'aaaa', 'abab']
+    strings.sort(key=lambda x: len(set(list(x))))
+    print(strings)
+
+    # CURRYING: PARTIAL ARGUMENT APPLICATION (page 87)
+    def add_numbers(x, y):
+        return x + y
+
+    add_five = lambda y: add_numbers(5, y)
+    # print(add_five(10))
+
+    from functools import partial
+
+    add_five_partial = partial(add_numbers, 5)
+    print(add_five_partial(5))
+
 
 if __name__ == "__main__":
     main()
