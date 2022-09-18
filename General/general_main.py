@@ -115,6 +115,13 @@ def main():
     add_five_partial = partial(add_numbers, 5)
     print(add_five_partial(5))
 
+    # TRY
+    def attempt_float(x):
+        try:
+            return float(x)
+        except (TypeError, ValueError):
+            return x
+
 
 if __name__ == "__main__":
     main()
