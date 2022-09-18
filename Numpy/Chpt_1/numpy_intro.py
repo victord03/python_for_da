@@ -184,6 +184,8 @@ comparison = numbers > (numbers_2 - 8)
 # Operations between differently sized arrays is called broadcasting and will be discussed later.
 
 # BASIC INDEXING AND SLICING (page 107).
+# CAUTION! Slicing [a:b] includes a, but excludes b (stops at b-1)
+
 # 1. One-dimensional arrays are simple; on the surface they act similarly to Python lists
 numbers_to_fifteen = np.arange(1, 16)
 
@@ -199,67 +201,110 @@ my_slice_copy[:] = 99
 # 2. Multi-dimensional arrays can be accessed either recursively or by a comma-separated list of indices (page 108).
 assert numbers_2[0][3] == numbers_2[0, 3]  # does not raise AssertionError
 
-two_by_two_by_three_array = np.ndarray((2, 2, 3), dtype=np.int8)
-print(two_by_two_by_three_array)
+new_ndarray = np.ones((3, 4, 2), dtype=np.int8)
 
 """
+
+VALUABLE CHEAT SHEET (INDEXING, SLICING)
 
 2 x 2 "Two containers, each one of those containers containing two elements inside."
 
 [
-    [  {  }, {  } ],
-    [  {  }, {  } ],
+    [  { [0] }, { [1] }  ],                      < index [0]
+    [  { [0] }, { [1] }  ],                      < index [1]
+]
+
+3 x 3 "Three containers, each one of those containers containing three elements inside."
+
+[
+    [  { [0] }, { [1] }, { [2] }  ],             < index [0]
+    [  { [0] }, { [1] }, { [2] }  ],             < index [1]
+    [  { [0] }, { [1] }, { [2] }  ],             < index [2]
 ]
 
 2 x 2 x 3 "Two layers, of two containers, each one of those containers containing three elements inside."
 
 [
-   [ 
-        [  {  }, {  }, {  }  ],
-        [  {  }, {  }, {  }  ],
-   ],
-   [ 
-        [  {  }, {  }, {  }  ],
-        [  {  }, {  }, {  }  ],
+   [                                            < index [0]
+        [  { [0] }, { [1] }, { [2] }  ],                     < index [0][0]
+        [  { [0] }, { [1] }, { [2] }  ],                     < index [0][1]
+   ],                                       
+   [                                            < index [1]
+        [  { [0] }, { [1] }, { [2] }  ],                     < index [1][0]
+        [  { [0] }, { [1] }, { [2] }  ],                     < index [1][1]
    ],
 ]
+
+new_ndarray[:, :1]  # selects the containers in the slice [:1], from each ([:]) layer.
+new_ndarray[:, :1, 2]  # selects the value at index 2, from the containers in the slide [:1], from each ([:]) layer.
+
+add several comma-separated slices, to dive into the different dimensions
+
+      layer    container    value
+        v          v          v
+  [   0:-1,      0:-1,      0:-1   ]
 
 
 3 x 4 x 2 "Three layers, of four containers, each one of those containers containing two elements inside."
 
 [
-    [ 
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],    
+    [                                           < index [0]
+        [  { [0] }, { [1] }  ],                              < index [0][0]
+        [  { [0] }, { [1] }  ],                              < index [0][1]
+        [  { [0] }, { [1] }  ],                              < index [0][2]
+        [  { [0] }, { [1] }  ],                              < index [0][3]
     ],
-    [
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
+    [                                           < index [1]
+        [  { [0] }, { [1] }  ],                              < index [1][0]
+        [  { [0] }, { [1] }  ],                              < index [1][1]
+        [  { [0] }, { [1] }  ],                              < index [1][2]
+        [  { [0] }, { [1] }  ],                              < index [1][3]
     ],
-    [
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
-        [  {  }, {  }  ],
+    [                                           < index [2]
+        [  { [0] }, { [1] }  ],                              < index [2][0]
+        [  { [0] }, { [1] }  ],                              < index [2][1]
+        [  { [0] }, { [1] }  ],                              < index [2][2]
+        [  { [0] }, { [1] }  ],                              < index [2][3]
     ],
-
 ]
 
+code example 1 (update the values from each of the two middle rows, for each container and layer, to zeros): 
+new_ndarray = np.ones((3, 4, 2), dtype=np.int8)
+new_ndarray[:, 1:3] = 0
+new_ndarray[:, 1:3].shape >>> (3, 2, 2)
+
+code example 2 (update the last value on each row, for each container and layer, to zeros):
+new_ndarray = np.ones((3, 4, 2), dtype=np.int8)
+new_ndarray[:, :, 1] = 0
+new_ndarray[:, 1:3].shape >>> (3, 4) (Notice that the trailing 1 is omitted (3, 4, 1)).
+
+More examples in section 'Two-dimensional array slicing' (page 112).
 """
 
-print("_" * 60)
+# BOOLEAN INDEXING (page 112).
+"""
+Using the slice operator on an array with an array of boolean values, 
+will yield all containers at the corresponding indices where True was found / matched.
 
-"""print("\n[0]")
-print(two_by_two_by_three_array[0])
-print("\n[1]")
-print(two_by_two_by_three_array[1])"""
+The boolean array should be of the same length as the array it's indexing (and it will not fail if it isn't).
 
+It is also possible to mix and match boolean arrays with slices or integers. Examples below.
+"""
+names = np.array(["Bob", "Alfred", "Bob", "Joyce", "Will", "Joyce", "Joe"])
+random_data_2 = np.random.randn(7, 4)
 
+print(random_data_2)
+print("\n\n")
+boolean_array_bob = names == "Bob"
+selection = random_data_2[boolean_array_bob]  # excuse me. wat.
 
+selection_2 = random_data_2[boolean_array_bob, 1:3]
 
+# to inverse selection it is possible to either negate the operator '!= "Bob"', or negate the condition using ~
+selection_3 = random_data_2[~boolean_array_bob, -1]
 
-
+# It is possible to use | (or) and & (and) operators for boolean statements. Use parenthesis for each statement.
+boolean_array_bob_or_joyce = (names == "Bob") | (names == "Joyce")
+list_of_indices = [index for index, boolean in enumerate(list(boolean_array_bob_or_joyce)) if boolean]
+selection_bob_or_joyce = random_data_2[boolean_array_bob_or_joyce]
+selection_not_bob_nor_joyce = random_data_2[~boolean_array_bob_or_joyce]
