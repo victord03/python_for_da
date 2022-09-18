@@ -52,3 +52,18 @@ Presentation
 Creating interactive or static graphical visualizations or textual summaries
 """
 
+"""
+Munge/munging/wrangling
+Describes the overall process of manipulating unstructured and/or messy data
+into a structured or clean form. The word has snuck its way into the jargon of
+many modern-day data hackers. “Munge” rhymes with “grunge.”
+
+Pseudocode
+A description of an algorithm or process that takes a code-like form while likely
+not being actual valid source code.
+
+Syntactic sugar
+Programming syntax that does not add new features, but makes something more
+convenient or easier to type
+"""
+
