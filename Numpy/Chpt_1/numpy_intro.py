@@ -83,7 +83,7 @@ the_data_type = data_2.dtype
 
 # Creating ndarrays
 
-# 1. Uing the np.array() function. Accepts sequence-like objects. (page 101)
+# 1. Uing the np.array() function. Accepts sequence-like objects or a tuple. (page 101)
 data1 = [6, 7.5, 8, 0, 1]
 arr1 = np.array(data1)
 
@@ -155,9 +155,111 @@ _______________________________________________________________________________|
 
 """
 
+"""
+MEMORY CONSUMPTION
+
 from sys import getsizeof as size
 
 print("\nnp.float64 takes up more space than python float:", size(np.float64(2)) > size(float(2)))
 print("np.float16 takes up more space than python float:", size(np.float16(2)) > size(float(2)))
 print("np.int64 takes up more space than python int:", size(np.int64(2)) > size(int(2)))
-print("np.int8 takes up more space than python int:", size(np.int8(2)) > size(int(2)))
+print("np.int8 takes up more space than python int:", size(np.int8(2)) > size(int(2)))"""
+
+# VECTORIZATION is to apply batch operations on data without loops (page 106).
+
+# Any arithmetic operations between equal-size arrays applies the operation element-wise (page 106).
+numbers = np.array(([2, 3, 5, 7], [10, 20, 50, 100]))
+
+numbers * numbers
+numbers + numbers
+
+# Arithmetic operations with scalars propagate the scalar argument to each element in the array (page 106).
+1 / numbers
+numbers + 5
+
+# Comparisons between arrays of the same size yield boolean arrays (page 107).
+numbers_2 = np.array(([9, 11, 13, 17], [19, 23, 53, 113]))
+comparison = numbers > (numbers_2 - 8)
+
+# Operations between differently sized arrays is called broadcasting and will be discussed later.
+
+# BASIC INDEXING AND SLICING (page 107).
+# 1. One-dimensional arrays are simple; on the surface they act similarly to Python lists
+numbers_to_fifteen = np.arange(1, 16)
+
+# CAUTION! Slicing in arrays are actually "views" on the original arrays. Any modifications will be reflected
+# in the origin.
+view_1 = numbers_to_fifteen[1:3]
+view_1[:] = 404  # will be assigned to all values in the current array view
+
+# To copy the slice to a new object (therefore avoiding modifying the origin) an explicit copy must be made.
+my_slice_copy = numbers_to_fifteen[0:9].copy()
+my_slice_copy[:] = 99
+
+# 2. Multi-dimensional arrays can be accessed either recursively or by a comma-separated list of indices (page 108).
+assert numbers_2[0][3] == numbers_2[0, 3]  # does not raise AssertionError
+
+two_by_two_by_three_array = np.ndarray((2, 2, 3), dtype=np.int8)
+print(two_by_two_by_three_array)
+
+"""
+
+2 x 2 "Two containers, each one of those containers containing two elements inside."
+
+[
+    [  {  }, {  } ],
+    [  {  }, {  } ],
+]
+
+2 x 2 x 3 "Two layers, of two containers, each one of those containers containing three elements inside."
+
+[
+   [ 
+        [  {  }, {  }, {  }  ],
+        [  {  }, {  }, {  }  ],
+   ],
+   [ 
+        [  {  }, {  }, {  }  ],
+        [  {  }, {  }, {  }  ],
+   ],
+]
+
+
+3 x 4 x 2 "Three layers, of four containers, each one of those containers containing two elements inside."
+
+[
+    [ 
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],    
+    ],
+    [
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+    ],
+    [
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+        [  {  }, {  }  ],
+    ],
+
+]
+
+"""
+
+print("_" * 60)
+
+"""print("\n[0]")
+print(two_by_two_by_three_array[0])
+print("\n[1]")
+print(two_by_two_by_three_array[1])"""
+
+
+
+
+
+
