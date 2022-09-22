@@ -11,6 +11,8 @@ random_data = {i: randn() for i in range(7)}
 # plt.show()
 
 a_string = str()
+
+
 # print(isinstance(a_string, (int, float, bool)))
 
 
@@ -21,6 +23,8 @@ def is_iterable(obj):
         return True
     except TypeError:
         return False
+
+
 # print(is_iterable(a), is_iterable(["a", "b", "c"]), is_iterable(int()))
 
 
@@ -52,7 +56,6 @@ tup += (["longer"], ["tuple"])
 
 # multiplying tuples
 tup *= 2
-
 
 # NDARRAY INTRODUCTION (page 100)
 
@@ -481,7 +484,6 @@ neg_to_zero = arr6 < 0
 "\nNegatives to zero"
 np.where(neg_to_zero, 0, arr6)  # Replace all negative values with 0, leave the others intact.
 
-
 # MATHEMATICAL AND STATISTICAL METHODS (page 124)
 arr7 = np.array([np.arange(1, 17)], np.float16)
 arr7 = arr7.reshape(4, 4)
@@ -557,6 +559,7 @@ print(arr7.std())
 print("\nVariance:")
 print(arr7.var())"""
 
+
 # Basic array statistical methods (page 125)
 people_data = {
     "Rose": {
@@ -580,18 +583,84 @@ people_data = {
 }
 
 incomes = np.array(
-    [inner_dict[category]
-     for name, inner_dict in people_data.items()
-     for category in inner_dict if category == "income"]
+    [
+        inner_dict[category]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "income"
+    ]
 )
 
 age_values = np.array(
-    [inner_dict[category]
-     for name, inner_dict in people_data.items()
-     for category in inner_dict if category == "age"]
+    [
+        inner_dict[category]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "age"
+    ]
 )
 
-age_over_income = np.array(list(zip(age_values, incomes))).reshape(len(age_values), 2)
+age_men = np.array(
+    [
+        inner_dict["age"]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "sex"
+        if inner_dict[category]
+    ]
+)
+
+age_women = np.array(
+    [
+        inner_dict["age"]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "sex"
+        if not inner_dict[category]
+    ]
+)
+
+income_men = np.array(
+    [
+        inner_dict["income"]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "sex"
+        if not inner_dict[category]
+    ]
+)
+
+income_women = np.array(
+    [
+        inner_dict["income"]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "sex"
+        if inner_dict[category]
+    ]
+)
+
+age_men_2 = list()
+age_women_2 = list()
+
+# the advantage over the list comprehensions here is one single loop for both created lists
+for name, inner_dict in people_data.items():
+    for category in inner_dict:
+        if category == "sex":
+            if inner_dict[category]:
+                age_women_2.append(inner_dict["age"])
+            elif not inner_dict[category]:
+                age_men_2.append(inner_dict["age"])
+
+
+age_men_2 = np.array(age_men_2)
+age_women_2 = np.array(age_women_2)
+
+age_over_income = np.array(
+    list(zip(age_values, incomes))
+).reshape(
+    len(age_values), 2
+)
 
 """print("\nIncomes (sorted):")
 print(sorted(incomes))
@@ -600,9 +669,57 @@ print(round(incomes.mean(), 2))
 print("\nStandard deviation:")
 print(round(incomes.std()))"""
 
-print("\nAge and income:")
-print(age_over_income)
-print("\nMean (age):")
-print(round(np.float16(age_over_income[:, [0]].mean()), 1))
-print("\nMean (income):")
-print(round(np.float16(age_over_income[:, [1]].mean()), 1))
+
+print("\nAverage")
+
+print("\n\tAge: All")
+
+print("\t\t" + str(round(
+    np.float16(
+        age_over_income[:, [0]].mean()
+    ), 1))
+)
+
+print("\n\tAge: Men")
+
+print("\t\t" + str(round(
+    np.float16(
+        age_men.mean()
+    ), 1))
+)
+
+print("\n\tAge: Women")
+
+print("\t\t" + str(round(
+    np.float16(
+        age_women.mean()
+    ), 1))
+)
+
+print("\n\tIncome: All")
+
+print("\t\t" + str(round(
+    np.float16(
+        income_women.mean()
+    )
+    , 1))
+)
+
+print("\n\tIncome: Men")
+
+print("\t\t" + str(round(
+    np.float16(
+        age_over_income[:, [1]].mean()
+    ), 1))
+)
+
+
+print("\n\tIncome: Women")
+
+print("\t\t" + str(round(
+    np.float16(
+        income_women.mean()
+    )
+    , 1))
+)
+
