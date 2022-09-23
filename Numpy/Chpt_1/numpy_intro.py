@@ -752,7 +752,7 @@ incomes_and_pets = people_data2[:, [2, 4]]
 print("\nSubset query:")
 print(incomes_and_pets)
 print("\n")
-print(incomes_and_pets[:, 1])
+# print(incomes_and_pets[:, 1])
 # print(list(zip(sex_list, children_list)))
 
 
@@ -760,11 +760,72 @@ print(incomes_and_pets[:, 1])
 """
 Saved on disk either in binary or text form.
 In binary by default with the extension .npy
-"""
+
 save_array = np.arange(1, 16)
 np.save('Data/some_array', save_array)
-loaded_array = np.load('Data/some_array.npy')
-print(loaded_array)
 
-# Save multiple arrays by passing them as keyword arguments using np.savez(), saving as .npz
-# np.savez('array_archive.npz', a=arr, b=arr)
+loaded_array = np.load('Data/some_array.npy')
+
+Save multiple arrays by passing them as keyword arguments using np.savez(), saving as .npz
+
+np.savez('array_archive.npz', a=arr, b=arr)
+
+When loading an .npz file, you get back a dict-like object that loads the individual
+arrays lazily:
+
+arch = np.load('array_archive.npz')
+print(arch['b'])
+>>> array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+"""
+
+# LINEAR ALGEBRA (page 129)
+"""
+page 130-131
+
+.diag       Return the diagonal (or off-diagonal) elements of a square matrix as a 1D array, or convert a 1D array into a
+square matrix with zeros on the off-diagonal
+
+.dot        Matrix multiplication
+.trace      Compute the sum of the diagonal elements
+.det        Compute the matrix determinant
+.eig        Compute the eigenvalues and eigenvectors of a square matrix
+.inv        Compute the inverse of a square matrix
+.pinv       Compute the Moore-Penrose pseudo-inverse of a matrix
+.qr         Compute the QR decomposition
+.svd        Compute the singular value decomposition (SVD)
+.solve      Solve the linear system Ax = b for x, where A is a square matrix
+.lstsq      Compute the least-squares solution to Ax = b
+
+"""
+
+# PSEUDORANDOM NUMBER GENERATION (page 131)
+
+example = np.random.normal(size=(4, 4))  # Creates data using the standard normal distribution
+
+# It is possible to change the RNG seed using np.random.seed()
+# It is also possible to override default, global behaviour on the seed by using rng = np.random.RandomState(1234)
+# then, rng.randn(x)
+
+"""
+Partial list of numpy.random functions (page 132)
+
+seed            Seed the random number generator
+permutation     Return a random permutation of a sequence, or return a permuted range
+shuffle         Randomly permute a sequence in-place
+rand            Draw samples from a uniform distribution
+randint         Draw random integers from a given low-to-high range
+randn           Draw samples from a normal distribution with mean 0 and standard deviation 1 (MATLAB-like interface)
+binomial        Draw samples from a binomial distribution
+normal          Draw samples from a normal (Gaussian) distribution
+beta            Draw samples from a beta distribution
+chisquare       Draw samples from a chi-square distribution
+gamma           Draw samples from a gamma distribution
+uniform         Draw samples from a uniform [0, 1) distribution
+"""
+
+sequence = np.arange(1, 7)
+np.random.shuffle(sequence)
+
+a = np.random.randn(10)
+
