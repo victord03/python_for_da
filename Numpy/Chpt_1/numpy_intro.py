@@ -316,7 +316,9 @@ selection_3 = random_data_2[~boolean_array_bob, -1]
 
 # It is possible to use | (or) and & (and) operators for boolean statements. Use parenthesis for each statement.
 boolean_array_bob_or_joyce = (names == "Bob") | (names == "Joyce")
-list_of_indices = [index for index, boolean in enumerate(list(boolean_array_bob_or_joyce)) if boolean]
+list_of_indices = [
+    index for index, boolean in enumerate(list(boolean_array_bob_or_joyce)) if boolean
+]
 selection_bob_or_joyce = random_data_2[boolean_array_bob_or_joyce]
 selection_not_bob_nor_joyce = random_data_2[~boolean_array_bob_or_joyce]
 
@@ -337,10 +339,14 @@ arr4 = np.arange(32).reshape((8, 4))  # reshape will be explored later in the bo
 
 # Passing a tuple of lists of indices returns, for each container at index on the first list, the element at index
 # specified in the second list.
-selection_4 = arr4[[0, 2, 5], [1, 2, 0]]  # This returns the positions (0, 1), (2, 2) and (5, 0) from the ndarray
+selection_4 = arr4[
+    [0, 2, 5], [1, 2, 0]
+]  # This returns the positions (0, 1), (2, 2) and (5, 0) from the ndarray
 
 selection_5 = arr4[[0, 2, 5]]
-selection_6 = arr4[[0, 2, 5]][:, [3, 2]]  # This returns the rows [0, 2, 5] and then the columns 3 and 2
+selection_6 = arr4[[0, 2, 5]][
+    :, [3, 2]
+]  # This returns the rows [0, 2, 5] and then the columns 3 and 2
 
 # TRANSPOSING ARRAYS AND SWAPPING AXES (page 116)
 arr5 = np.arange(15).reshape((5, 3))
@@ -478,11 +484,15 @@ some of the values, based on a specific condition, using the boolean indexing.
 """
 arr6 = np.random.randn(4, 4)
 cond_arr = (-1.2 < arr6) & (arr6 < 1.2)  # Df = (-1.2, 1.2)
-result_cond = np.where(cond_arr, 1, 0)  # Replace all values between -1.2 and 1.2 with 1, and the rest with 0.
+result_cond = np.where(
+    cond_arr, 1, 0
+)  # Replace all values between -1.2 and 1.2 with 1, and the rest with 0.
 
 neg_to_zero = arr6 < 0
 "\nNegatives to zero"
-np.where(neg_to_zero, 0, arr6)  # Replace all negative values with 0, leave the others intact.
+np.where(
+    neg_to_zero, 0, arr6
+)  # Replace all negative values with 0, leave the others intact.
 
 # MATHEMATICAL AND STATISTICAL METHODS (page 124)
 arr7 = np.array([np.arange(1, 17)], np.float16)
@@ -491,12 +501,14 @@ arr7 = arr7.reshape(4, 4)
 # Populating with semi-random data manually (np.random.randn() could be used but slicing is practiced here).
 arr7[[0, 0, 0, 2, 3], [0, 1, 2, 0, 2]] = -2.008
 arr7[[0, 1, 1], [3, 2, 3]] = 2.48
-arr7[[1, 2, 2, 2], [1, 0, 2, 3]] = -.966
+arr7[[1, 2, 2, 2], [1, 0, 2, 3]] = -0.966
 arr7[[1, 2, 3, 3, 3], [0, 1, 0, 1, 3]] = 1.114
 
 print_mean = "\nMean (Overall)"
 # Mean, sum, std (standard deviation). Can be called as methods or top-level NumPy functions.
-mean_array_overall = arr7.mean()  # optional argument axis=0 for the columns (vertical) or axis=1 for the rows (horizontal).
+mean_array_overall = (
+    arr7.mean()
+)  # optional argument axis=0 for the columns (vertical) or axis=1 for the rows (horizontal).
 assert arr7.mean() == np.mean(arr7)
 # print("_" * 36)
 
@@ -562,24 +574,12 @@ print(arr7.var())"""
 
 # Basic array statistical methods (page 125)
 people_data = {
-    "Rose": {
-        "age": 18, "sex": True, "income": 650, "children": 0, "pets": 0
-    },
-    "Victor": {
-        "age": 31, "sex": False, "income": 1_150, "children": 0, "pets": 0
-    },
-    "Spyros": {
-        "age": 58, "sex": False, "income": 1_200, "children": 1, "pets": 2
-    },
-    "Dimitra": {
-        "age": 50, "sex": True, "income": 450, "children": 3, "pets": 0
-    },
-    "Billy": {
-        "age": 56, "sex": False, "income": 3_220, "children": 2, "pets": 4
-    },
-    "Marie": {
-        "age": 45, "sex": True, "income": 1_950, "children": 1, "pets": 1
-    },
+    "Rose": {"age": 18, "sex": True, "income": 650, "children": 0, "pets": 0},
+    "Victor": {"age": 31, "sex": False, "income": 1_150, "children": 0, "pets": 0},
+    "Spyros": {"age": 58, "sex": False, "income": 1_200, "children": 1, "pets": 2},
+    "Dimitra": {"age": 50, "sex": True, "income": 450, "children": 3, "pets": 0},
+    "Billy": {"age": 56, "sex": False, "income": 3_220, "children": 2, "pets": 4},
+    "Marie": {"age": 45, "sex": True, "income": 1_950, "children": 1, "pets": 1},
 }
 
 incomes = np.array(
@@ -640,6 +640,39 @@ income_women = np.array(
     ]
 )
 
+children = np.array(
+    [
+        inner_dict[category]
+        for name, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "children"
+    ]
+)
+
+sexes = np.array(
+    [
+        "Woman" if inner_dict[category] else "Man"
+        for names, inner_dict in people_data.items()
+        for category in inner_dict
+        if category == "sex"
+    ]
+)
+
+
+total_number_of_children_per_sex = {}
+total_number_of_children_per_sex.setdefault("Men", 0)
+total_number_of_children_per_sex.setdefault("Women", 0)
+
+for name, inner_dict in people_data.items():
+    for category in inner_dict:
+        if category == "sex":
+            if inner_dict[category]:
+                total_number_of_children_per_sex["Women"] += inner_dict["children"]
+            elif not inner_dict[category]:
+                total_number_of_children_per_sex["Men"] += inner_dict["children"]
+
+# print(total_number_of_children_per_sex)
+
 age_men_2 = list()
 age_women_2 = list()
 
@@ -652,15 +685,12 @@ for name, inner_dict in people_data.items():
             elif not inner_dict[category]:
                 age_men_2.append(inner_dict["age"])
 
-
 age_men_2 = np.array(age_men_2)
 age_women_2 = np.array(age_women_2)
 
-age_over_income = np.array(
-    list(zip(age_values, incomes))
-).reshape(
-    len(age_values), 2
-)
+ages_and_incomes = np.array(list(zip(age_values, incomes))).reshape(len(age_values), 2)
+# ages_and_incomes = people_data[:, [0, 2]]  # todo: this can replace the line above, if people_data was an np.array
+children_per_sex = np.array(list(zip(children, sexes))).reshape(len(children), 2)
 
 """print("\nIncomes (sorted):")
 print(sorted(incomes))
@@ -670,56 +700,71 @@ print("\nStandard deviation:")
 print(round(incomes.std()))"""
 
 
-print("\nAverage")
+"""print("\nAverage")
 
 print("\n\tAge: All")
-
-print("\t\t" + str(round(
-    np.float16(
-        age_over_income[:, [0]].mean()
-    ), 1))
-)
+print("\t\t" + str(round(np.float16(ages_and_incomes[:, [0]].mean()), 1)))
 
 print("\n\tAge: Men")
-
-print("\t\t" + str(round(
-    np.float16(
-        age_men.mean()
-    ), 1))
-)
+print("\t\t" + str(round(np.float16(age_men.mean()), 1)))
 
 print("\n\tAge: Women")
-
-print("\t\t" + str(round(
-    np.float16(
-        age_women.mean()
-    ), 1))
-)
+print("\t\t" + str(round(np.float16(age_women.mean()), 1)))
 
 print("\n\tIncome: All")
-
-print("\t\t" + str(round(
-    np.float16(
-        income_women.mean()
-    )
-    , 1))
-)
+print("\t\t" + str(round(np.float16(income_women.mean()), 1)))
 
 print("\n\tIncome: Men")
-
-print("\t\t" + str(round(
-    np.float16(
-        age_over_income[:, [1]].mean()
-    ), 1))
-)
-
+print("\t\t" + str(round(np.float16(ages_and_incomes[:, [1]].mean()), 1)))
 
 print("\n\tIncome: Women")
+print("\t\t" + str(round(np.float16(income_women.mean()), 1)))
 
-print("\t\t" + str(round(
-    np.float16(
-        income_women.mean()
-    )
-    , 1))
+print("\nAges and incomes:")
+print(ages_and_incomes)
+print("\nchildren per Sex")
+print(children_per_sex)"""
+
+people_names = np.array([name for name in people_data])
+
+people_data2 = np.array(
+    [
+        [18, True, 650, 0, 0],
+        [31, False, 1_150, 0, 0],
+        [58, False, 1_200, 1, 2],
+        [50, True, 450, 3, 0],
+        [56, False, 3_220, 2, 4],
+        [45, True, 1_950, 1, 1],
+    ],
+    dtype=np.int16
 )
 
+names_and_data_as_tuples = np.array(list(zip(people_names, people_data2)), dtype=tuple)
+print(names_and_data_as_tuples)
+
+children_list = people_data2[:, 3]
+total_children = children_list.cumsum()[-1]  # the hell
+
+ages_and_incomes2 = people_data2[:, [0, 2]]
+ages_and_children = people_data2[:, [0, 3]]
+incomes_and_pets = people_data2[:, [2, 4]]
+
+print("\nSubset query:")
+print(incomes_and_pets)
+print("\n")
+print(incomes_and_pets[:, 1])
+# print(list(zip(sex_list, children_list)))
+
+
+# FILE INPUT AND OUTPUT WITH ARRAYS (page 128)
+"""
+Saved on disk either in binary or text form.
+In binary by default with the extension .npy
+"""
+save_array = np.arange(1, 16)
+np.save('Data/some_array', save_array)
+loaded_array = np.load('Data/some_array.npy')
+print(loaded_array)
+
+# Save multiple arrays by passing them as keyword arguments using np.savez(), saving as .npz
+# np.savez('array_archive.npz', a=arr, b=arr)
