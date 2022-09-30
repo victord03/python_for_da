@@ -760,13 +760,14 @@ incomes_and_pets = people_data2[:, [2, 4]]
 
 my_array = np.array([0, 2, 3, 5, 6, -2, -5, -1, 0])
 
-print("Sum of all values greater than 2:", my_array[(my_array > 2)].sum())
 
 gt_zero_bools = my_array > 0
-print("Values that are greater than 0: ", my_array[gt_zero_bools])
 
-print("Any values are True?", gt_zero_bools.any())
-print("All values are True?", gt_zero_bools.all())
+# Examples:
+# print("Sum of all values greater than 2:", my_array[(my_array > 2)].sum())
+# print("Values that are greater than 0: ", my_array[gt_zero_bools])
+# print("Any values are True?", gt_zero_bools.any())
+# print("All values are True?", gt_zero_bools.all())
 
 # SORTING (page 127)
 """The .sort() method sorts arrays in-place.
@@ -873,3 +874,78 @@ np.random.shuffle(sequence)
 
 a = np.random.randn(10)
 
+
+entities = np.array(
+    [
+        "Imerys Minerals Limited",
+        "Imerys Ceramics France",
+        "Calderys DE",
+        "Imerys Talc AU",
+        "Calderys FR",
+        "Imerys SA",
+        "IFM Glomel",
+        "Aluminates FR",
+        "Imerys Talc LU",
+        "Imerys Talc EU",
+        "G&C Switzerland",
+        "Mineraux Belgique",
+        "Imerys Tableware DE",
+        "IRM Clerac",
+        "Imerys Mineraux France",
+        "Diatomita Alicante",
+    ], dtype=np.string_
+)
+
+subcategories = np.array(
+    [
+        "Total",
+        "Payment",
+        "DM"
+    ], dtype=np.string_
+)
+
+data_per_entity = np.array(
+    [
+        [685, 67, 119],
+        [519, 23, 22],
+        [357, 50, 47],
+        [294, 17, 23],
+        [255, 46, 22],
+        [244, 14, 25],
+        [247, 5, 24],
+        [256, 0, 13],
+        [228, 13, 4],
+        [217, 12, 6],
+        [200, 16, 12],
+        [180, 12, 8],
+        [187, 3, 10],
+        [176, 8, 2],
+        [164, 8, 3],
+        [139, 15, 10],
+    ], dtype=np.int16
+)
+
+data_combined = list(zip(entities, data_per_entity))
+
+payment_totals, dm_totals, other_totals = data_per_entity.T
+
+grand_totals_per_entity = data_per_entity.sum(1)
+grand_totals_per_subcategory = data_per_entity.sum(0)
+
+print()
+print("Pymnt Totals (per entity):\t", payment_totals)
+print("DM Totals (per entity):\t\t", dm_totals)
+print("Other Totals (per entity):\t", other_totals)
+print()
+print("Grand totals (per entity):\t\t\t", grand_totals_per_entity)
+print("Grand totals (Pymnt, DM, Others):\t", grand_totals_per_subcategory)
+
+print()
+print("Minimum Pymnt:\t\t", payment_totals.min(), f"({entities[payment_totals.argmin()]})")
+print("Minimum DM's:\t\t", dm_totals.min(), f"({entities[dm_totals.argmin()]})")
+print("Minimum Others:\t\t", other_totals.min(), f"({entities[other_totals.argmin()]})")
+
+print()
+print("Maximum Pymnt:\t\t", payment_totals.max(), f"({entities[payment_totals.argmax()]})")
+print("Maximum DM's:\t\t", dm_totals.max(), f"({entities[dm_totals.argmax()]})")
+print("Maximum Others:\t\t", other_totals.max(), f"({entities[other_totals.argmax()]})")

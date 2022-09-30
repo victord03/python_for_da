@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import Series, DataFrame
 
 DECO = "-" * 50
 NL = "\n"
@@ -11,7 +12,7 @@ my_dictionary_of_ds_weapons = {
     "upgrade_level": [0, 1, 1]
 }
 
-data = pd.DataFrame(my_dictionary_of_ds_weapons)
+data = DataFrame(my_dictionary_of_ds_weapons)
 
 """
 DataFrame
