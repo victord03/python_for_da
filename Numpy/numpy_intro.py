@@ -103,6 +103,7 @@ arr2 = np.array(data2)
 
 data_type2 = arr2.dtype  # <class 'numpy.int32'>
 
+# check number of dimensions in the array
 ndim2 = arr2.ndim  # 2
 shape2 = arr2.shape  # (2, 4)
 
@@ -471,7 +472,6 @@ equal
 # to all pairs of (x, y) in the two arrays
 
 # EXPRESSING CONDITIONAL LOGIC AS ARRAY OPERATIONS (page 122)
-
 xarr = np.array([1.1, 1.2, 1.3, 1.4, 1.5], dtype=np.float64)
 yarr = np.array([2.1, 2.2, 2.3, 2.4, 2.5], dtype=np.float64)
 cond = np.array([True, False, True, True, False], dtype=np.bool_)
@@ -572,7 +572,7 @@ print("\nVariance:")
 print(arr7.var())"""
 
 
-# Basic array statistical methods (page 125)
+# BASIC ARRAY STATISTICAL METHODS (page 125)
 people_data = {
     "Rose": {"age": 18, "sex": True, "income": 650, "children": 0, "pets": 0},
     "Victor": {"age": 31, "sex": False, "income": 1_150, "children": 0, "pets": 0},
@@ -740,7 +740,7 @@ people_data2 = np.array(
 )
 
 names_and_data_as_tuples = np.array(list(zip(people_names, people_data2)), dtype=tuple)
-print(names_and_data_as_tuples)
+# print(names_and_data_as_tuples)
 
 children_list = people_data2[:, 3]
 total_children = children_list.cumsum()[-1]  # the hell
@@ -749,11 +749,56 @@ ages_and_incomes2 = people_data2[:, [0, 2]]
 ages_and_children = people_data2[:, [0, 3]]
 incomes_and_pets = people_data2[:, [2, 4]]
 
-print("\nSubset query:")
-print(incomes_and_pets)
-print("\n")
+# print("\nSubset query:")
+# print(incomes_and_pets)
+# print("\n")
 # print(incomes_and_pets[:, 1])
 # print(list(zip(sex_list, children_list)))
+
+
+# METHODS FOR BOOLEAN ARRAYS (page 126)
+
+my_array = np.array([0, 2, 3, 5, 6, -2, -5, -1, 0])
+
+print("Sum of all values greater than 2:", my_array[(my_array > 2)].sum())
+
+gt_zero_bools = my_array > 0
+print("Values that are greater than 0: ", my_array[gt_zero_bools])
+
+print("Any values are True?", gt_zero_bools.any())
+print("All values are True?", gt_zero_bools.all())
+
+# SORTING (page 127)
+"""The .sort() method sorts arrays in-place.
+
+The top-level np.sort() method returns a sorted copy of the array.
+
+
+A quick-and-dirty way to compute the quantiles of an array is to
+sort it and select the value at a particular rank:
+
+large_arr = np.random.randn(1000)
+
+large_arr.sort()
+
+result = large_arr[int(0.05 * len(large_arr))]
+"""
+
+# UNIQUE AND OTHER SET LOGIC (page 127)
+"""np.unique() returns the unique elements of the array. 
+
+Equivalent of the Python sorted(set(my_array))
+
+Array set operations (page 128)
+
+unique(x)               Compute the sorted, unique elements in x
+intersect1d(x, y)       Compute the sorted, common elements in x and y
+union1d(x, y)           Compute the sorted union of elements
+in1d(x, y)              Compute a boolean array indicating whether each element of x is contained in y
+setdiff1d(x, y)         Set difference, elements in x that are not in y
+setxor1d(x, y)          Set symmetric differences; elements that are in either of the arrays, but not both
+
+"""
 
 
 # FILE INPUT AND OUTPUT WITH ARRAYS (page 128)
@@ -800,7 +845,6 @@ square matrix with zeros on the off-diagonal
 """
 
 # PSEUDORANDOM NUMBER GENERATION (page 131)
-
 example = np.random.normal(size=(4, 4))  # Creates data using the standard normal distribution
 
 # It is possible to change the RNG seed using np.random.seed()

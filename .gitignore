@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 .idea/
-Numpy/Chpt_1/Data/
+Numpy/Data/
 
 # C extensions
 *.so
